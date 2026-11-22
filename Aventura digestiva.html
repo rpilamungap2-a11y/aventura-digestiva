@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aventura digestiva</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light;--bg:#f2f5fd;--card:#fff;--ink:#16193a;--mut:#5b6088;--navy:#1b2a7a;--onnavy:#fff;--line:#d3d9f0;--ok:#0f7a56;--okbg:#dcf4ea;--bad:#a82b44;--badbg:#fde3e8;--gold:#f5c542;--goldink:#4a3600;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0d1130;--card:#171c48;--ink:#eef0ff;--mut:#a9aed6;--navy:#8fa0ff;--onnavy:#0d1130;--line:#2c336b;--ok:#6fe0b4;--okbg:#103a2e;--bad:#ff9db1;--badbg:#45172a}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0d1130;--card:#171c48;--ink:#eef0ff;--mut:#a9aed6;--navy:#8fa0ff;--onnavy:#0d1130;--line:#2c336b;--ok:#6fe0b4;--okbg:#103a2e;--bad:#ff9db1;--badbg:#45172a}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.5 Nunito,system-ui,sans-serif}
+h1,h2,h3{font-family:Fredoka,system-ui,sans-serif;font-weight:700;line-height:1.2;margin:0}
+.wrap{max-width:680px;margin:0 auto;padding:18px 16px 40px}
+.trail{display:flex;align-items:flex-start;justify-content:space-between;position:relative;margin-bottom:20px}
+.trail::before{content:"";position:absolute;left:12%;right:12%;top:26px;height:6px;background:var(--line);border-radius:3px}
+.st{position:relative;flex:1;text-align:center;font-size:13px;color:var(--mut);font-weight:700}
+.dot{width:54px;height:54px;border-radius:50%;margin:0 auto 4px;display:grid;place-items:center;font-size:26px;background:var(--card);border:3px solid var(--line)}
+.st.cur .dot{border-color:var(--navy);box-shadow:0 0 0 4px color-mix(in srgb,var(--navy) 22%,transparent)}
+.st.cur{color:var(--ink)}
+.st.done .dot{background:var(--gold);border-color:var(--gold)}
+.st.done{color:var(--ink)}
+.card{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:22px}
+.card h1{font-size:30px;margin-bottom:8px}
+.card h2{font-size:22px;margin-bottom:6px}
+.mut{color:var(--mut);margin:0 0 14px}
+.q{font-size:19px;font-weight:700;margin:14px 0}
+.opts{display:grid;gap:10px}
+.opt,.btn{font:inherit;cursor:pointer;border-radius:12px;text-align:left}
+.opt{background:var(--bg);color:var(--ink);border:2px solid var(--line);padding:13px 15px;font-weight:700}
+.opt:hover:not(:disabled){border-color:var(--navy)}
+.opt:disabled{cursor:default}
+.opt.ok{background:var(--okbg);border-color:var(--ok)}
+.opt.no{background:var(--badbg);border-color:var(--bad)}
+.btn{background:var(--navy);color:var(--onnavy);border:0;padding:13px 22px;font-family:Fredoka,system-ui,sans-serif;font-weight:500;font-size:18px;text-align:center;margin-top:16px}
+.btn:hover{filter:brightness(1.1)}
+:is(.opt,.btn,input):focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.fb{margin-top:14px;padding:12px 14px;border-radius:12px;font-size:16px}
+.fb.ok{background:var(--okbg);color:var(--ok)}
+.fb.no{background:var(--badbg);color:var(--bad)}
+.fb b{display:block}
+.pips{display:flex;gap:6px;margin-top:4px}
+.pip{width:26px;height:8px;border-radius:4px;background:var(--line)}
+.pip.ok{background:var(--ok)}.pip.no{background:var(--bad)}.pip.cur{background:var(--navy)}
+input{font:inherit;width:100%;padding:12px 14px;border-radius:12px;border:2px solid var(--line);background:var(--bg);color:var(--ink)}
+label{font-weight:700;display:block;margin:14px 0 6px}
+.badge{font-size:72px;line-height:1;margin:10px 0}
+.center{text-align:center}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.bd{background:var(--gold);color:var(--goldink);border-radius:14px;padding:14px 8px;text-align:center;font-weight:700;font-size:15px}
+.bd span{display:block;font-size:38px}
+@media (prefers-reduced-motion:no-preference){.badge.pop{animation:pop .5s ease-out}@keyframes pop{from{transform:scale(.3) rotate(-20deg)}70%{transform:scale(1.15)}to{transform:none}}}
+.hero{padding:4px 2px 18px;border-bottom:1px dashed var(--line);margin-bottom:18px}.hero h2{font-size:21px;margin-bottom:6px}.hero p{margin:0}.hero .btn{margin-top:14px}[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero" id="hero">
+    <h2>3. Ruta gamificada: Aventura digestiva</h2>
+    <p>Una aventura con 4 retos que sigue el camino del alimento: Boca, Estómago, Intestinos y Hábitos saludables. En cada reto el estudiante gana una insignia.</p>
+    <button class="btn" id="start">Comenzar la aventura</button>
+  </section>
+  <div id="game" hidden>
+    <div class="trail" id="trail" aria-label="Progreso de la aventura"></div>
+    <main class="card" id="app"></main>
+  </div>
+</div>
+<script>
+const L=[
+{n:"Boca",e:"👄",b:"🦷",bn:"Guardián de la Boca",t:"Aquí empieza todo: masticar y mezclar con saliva.",q:[
+{p:"¿Qué sustancia de la boca empieza a digerir el almidón?",o:["La amilasa de la saliva","La pepsina","La bilis"],x:"La saliva contiene amilasa, que empieza a descomponer el almidón (como el del pan o el arroz)."},
+{p:"¿Cuál es la función principal de los dientes?",o:["Triturar el alimento","Producir saliva","Absorber nutrientes"],x:"Los dientes cortan y trituran la comida para que sea más fácil de digerir."},
+{p:"¿Qué órgano mueve el alimento y lo mezcla con la saliva?",o:["La lengua","El esófago","El hígado"],x:"La lengua empuja y mezcla el alimento hasta formar el bolo alimenticio."}]},
+{n:"Estómago",e:"🫃",b:"🔥",bn:"Maestro del Estómago",t:"Un saco muscular que mezcla la comida con jugos gástricos.",q:[
+{p:"¿Qué tubo lleva el alimento desde la boca hasta el estómago?",o:["El esófago","La tráquea","El intestino delgado"],x:"El esófago empuja el bolo hacia el estómago con movimientos llamados peristálticos."},
+{p:"¿Qué nutrientes ayuda a digerir la pepsina del estómago?",o:["Las proteínas","Las grasas","El agua"],x:"La pepsina, junto con el ácido clorhídrico, descompone las proteínas."},
+{p:"¿Cómo se llama la mezcla casi líquida que se forma en el estómago?",o:["Quimo","Bolo alimenticio","Bilis"],x:"El alimento mezclado con los jugos gástricos se convierte en quimo."}]},
+{n:"Intestinos",e:"🌀",b:"🌟",bn:"Explorador Intestinal",t:"Aquí se absorben los nutrientes y el agua.",q:[
+{p:"¿En qué parte se absorben la mayoría de los nutrientes?",o:["Intestino delgado","Intestino grueso","Esófago"],x:"El intestino delgado tiene vellosidades que absorben los nutrientes hacia la sangre."},
+{p:"¿Qué absorbe principalmente el intestino grueso?",o:["Agua","Proteínas","Saliva"],x:"El intestino grueso absorbe agua y forma las heces."},
+{p:"¿Qué órgano produce la bilis que ayuda a digerir las grasas?",o:["El hígado","El estómago","El páncreas"],x:"La bilis se produce en el hígado y se guarda en la vesícula biliar."}]},
+{n:"Hábitos",e:"🍎",b:"🏆",bn:"Héroe Saludable",t:"Cuidar tu digestión es cuestión de hábitos.",q:[
+{p:"¿Cuál de estos alimentos ayuda más a tu digestión por su fibra?",o:["Frutas y verduras","Gaseosas","Dulces y caramelos"],x:"La fibra de frutas, verduras y cereales integrales ayuda al tránsito intestinal."},
+{p:"¿Qué conviene hacer al comer?",o:["Masticar despacio","Comer muy rápido","Tragar sin masticar"],x:"Masticar bien facilita el trabajo del estómago y los intestinos."},
+{p:"¿Qué hábito evita infecciones digestivas?",o:["Lavarse las manos antes de comer","Tomar bebidas azucaradas","Saltarse el desayuno"],x:"Lavarse las manos elimina microbios que podrían causar diarrea y otras infecciones."}]}
+];
+let S;const $=id=>document.getElementById(id);
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+function reset(){S={name:"",lv:0,qi:0,res:[],badges:[],done:false,started:false}}
+function trail(){$("trail").innerHTML=L.map((l,i)=>{const d=S.badges.includes(i);const c=d?"done":(i===S.lv&&S.started&&!S.done?"cur":"");return `<div class="st ${c}"><div class="dot" aria-hidden="true">${d?l.b:l.e}</div>${l.n}</div>`}).join("")}
+function intro(){reset();trail();$("app").innerHTML=`<h1>Aventura digestiva</h1><p class="mut">Sigue el camino del alimento a través de 4 retos: Boca, Estómago, Intestinos y Hábitos saludables. En cada reto responde 3 preguntas; con 2 aciertos ganas la insignia.</p><label for="nm">¿Cómo te llamas?</label><input id="nm" maxlength="40" autocomplete="off" placeholder="Escribe tu nombre"><button class="btn" id="go">Empezar el recorrido</button>`;
+$("go").onclick=()=>{S.name=$("nm").value.trim();S.started=true;S.lv=0;S.qi=0;S.res=[];question()}}
+function question(){trail();const l=L[S.lv],q=l.q[S.qi];
+const pips=l.q.map((_,i)=>`<div class="pip ${S.res[i]===true?"ok":S.res[i]===false?"no":i===S.qi?"cur":""}"></div>`).join("");
+$("app").innerHTML=`<h2>Reto ${S.lv+1}: ${l.n}</h2><p class="mut">${l.t}</p><div class="pips" aria-label="Pregunta ${S.qi+1} de 3">${pips}</div><p class="q" id="q" tabindex="-1">${q.p}</p><div class="opts" id="opts"></div><div id="fb" role="status"></div>`;
+const box=$("opts");
+shuf(q.o.map((t,i)=>({t,ok:i===0}))).forEach(op=>{const b=document.createElement("button");b.className="opt";b.textContent=op.t;b.onclick=()=>answer(op.ok,b,q);box.appendChild(b)});
+$("q").focus({preventScroll:true})}
+function answer(ok,btn,q){S.res[S.qi]=ok;
+[...document.querySelectorAll(".opt")].forEach(b=>{b.disabled=true;if(b.textContent===q.o[0])b.classList.add("ok")});
+if(!ok)btn.classList.add("no");
+const last=S.qi===2;
+$("fb").innerHTML=`<div class="fb ${ok?"ok":"no"}"><b>${ok?"¡Correcto!":"Casi. La respuesta correcta está marcada en verde."}</b>${q.x}</div><button class="btn" id="nx">${last?"Ver resultado del reto":"Siguiente pregunta"}</button>`;
+$("nx").onclick=()=>{if(last)levelEnd();else{S.qi++;question()}};$("nx").focus()}
+function levelEnd(){const l=L[S.lv],n=S.res.filter(Boolean).length,pass=n>=2;
+if(pass&&!S.badges.includes(S.lv))S.badges.push(S.lv);trail();
+const lastLv=S.lv===3;
+if(pass){$("app").innerHTML=`<div class="center"><div class="badge pop" aria-hidden="true">${l.b}</div><h2>¡Insignia ganada: ${l.bn}!</h2><p class="mut">Acertaste ${n} de 3 preguntas.</p><button class="btn" id="nx">${lastLv?"Ver mis insignias":"Pasar al siguiente reto"}</button></div>`;
+$("nx").onclick=()=>{if(lastLv)final();else{S.lv++;S.qi=0;S.res=[];question()}}}
+else{$("app").innerHTML=`<div class="center"><div class="badge" aria-hidden="true">${l.e}</div><h2>Te faltó poco</h2><p class="mut">Acertaste ${n} de 3. Necesitas 2 para la insignia ${l.bn}. ¡Inténtalo otra vez!</p><button class="btn" id="nx">Reintentar el reto</button></div>`;
+$("nx").onclick=()=>{S.qi=0;S.res=[];question()}}
+$("nx").focus()}
+function final(){S.done=true;trail();
+$("app").innerHTML=`<div class="center"><h1>¡Completaste la aventura${S.name?", "+esc(S.name):""}!</h1><p class="mut">Seguiste todo el camino del alimento y cuidaste tu digestión. Estas son tus insignias:</p></div><div class="grid">${L.map(l=>`<div class="bd"><span aria-hidden="true">${l.b}</span>${l.bn}</div>`).join("")}</div><div class="center"><button class="btn" id="rp">Jugar de nuevo</button></div>`;
+$("rp").onclick=intro}
+$("start").onclick=()=>{$("start").hidden=true;$("game").hidden=false;intro()};
+</script>
+</body>
+</html>
